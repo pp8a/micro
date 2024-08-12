@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "OrderAvro",
+  "namespace": "com.micro",
+  "fields": [
+    {"name": "id", "type": "string"},
+    {"name": "customerName", "type": "string"},
+    {"name": "orderStatus", "type": "string"},
+    {"name": "totalAmount", "type": "double"}
+  ]
+}

@@ -1,0 +1,32 @@
+server:
+  port: 8765 # 
+
+spring:
+  application:
+    name: api-gateway # The name of the application, used for service identification
+    
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # Enable Discovery Locator (Correct works API Gateway)
+          lower-case-service-id: true # Convert service IDs to lowercase (the case of words)
+      routes:
+        - id: test
+          uri: lb://discovery-client
+          predicates:
+          - Path=/main/test
+          - Method=GET
+            
+
+eureka:
+  client:    
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/ #http://localhost:8761/eureka/ # URL to access the Eureka Server. 
+      enabled: false
+
+logging:  
+  pattern:
+    console: "%C{1.} [%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n" # Format for log output in the console. 
+                                                                  #%C{1.} - class name, %-5level - log level, 
+                                                                  #%d - date and time, %msg - log message, %n - new line

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1"
+      author: Alex
+      changes:
+        - sqlFile:
+            path: classpath:/db/changelog/init-ddl.sql
+
+  - changeSet:
+      id: "2"
+      author: Alex
+      changes:
+        - sqlFile:
+            path: classpath:/db/changelog/init-dml.sql

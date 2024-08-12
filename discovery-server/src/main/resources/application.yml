@@ -1,0 +1,23 @@
+server:
+  port: 8761 # The port on which the Eureka Server will run
+
+spring:
+  application:
+    name: discovery-server # The name of the application, used for service identification
+
+eureka:
+  client:
+    register-with-eureka: false # Disables the registration of the Eureka Server itself in Eureka 
+    fetch-registry: false # Disables fetching the registry of services from Eureka 
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/ #http://localhost:8761/eureka/ # URL to access the Eureka Server. 
+
+logging:
+  level:
+    "[com.netflix.eureka]": off # Disables logging for the com.netflix.eureka package
+    "[com.netflix.discovery]": off # Disables logging for the com.netflix.discovery package
+  pattern:
+    console: "%C{1.} [%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n" # Format for log output in the console. 
+                                                                  #%C{1.} - class name, %-5level - log level, 
+                                                                  #%d - date and time, %msg - log message, %n - new line
+

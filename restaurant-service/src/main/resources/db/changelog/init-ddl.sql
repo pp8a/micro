@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS order_approvals CASCADE;
+
+CREATE TABLE order_approvals (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    order_id BIGINT NOT NULL,
+    restaurant_status VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

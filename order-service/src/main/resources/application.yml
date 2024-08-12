@@ -1,0 +1,45 @@
+server:
+  port: 8084 # 0 auto registration port
+
+spring:
+  application:
+    name: order-service # The name of the application, used for service identification
+  datasource:
+    url: jdbc:postgresql://order-db:5432/orders-service #order-db
+    username: postgres
+    password: tgb098P7
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: kafka:9092
+    properties:
+      "[schema.registry.url]": "http://schema-registry:8081"
+    consumer:
+      group-id: order-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        "[specific.avro.reader]": true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid} # Unique ID for each instance
+  client:    
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/ #http://localhost:8761/eureka/ # URL to access the Eureka Server. 
+
+logging:  
+  pattern:
+    console: "%C{1.} [%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg%n" # Format for log output in the console. 
+                                                                  #%C{1.} - class name, %-5level - log level, 
+                                                                  #%d - date and time, %msg - log message, %n - new line
