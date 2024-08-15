@@ -18,16 +18,22 @@ spring:
   kafka:
     bootstrap-servers: kafka:9092
     properties:
-      "[schema.registry.url]": "http://schema-registry:8081"
+      "[schema.registry.url]": http://schema-registry:8081
     consumer:
       group-id: payment-service-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       properties:
+        "[schema.registry.url]": http://schema-registry:8081
         "[specific.avro.reader]": true
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      acks: all
+      retries: 10
+      properties:
+        "[schema.registry.url]": http://schema-registry:8081
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
